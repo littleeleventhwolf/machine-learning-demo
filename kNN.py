@@ -16,6 +16,12 @@ def classify0(inX, dataSet, labels, k):
         take k items with lowest distances to inX
         find the majority class among these items
         return the majority class as our prediction for the class of inX
+
+    params:
+        inX: the input vector to classify
+        dataSet: our full matrix of training examples
+        labels: a vector of labels
+        k: the number of nearest neighbors to use in the voting
     """
     # Distance calculation
     dataSetSize = dataSet.shape[0]
