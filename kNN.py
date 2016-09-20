@@ -41,7 +41,7 @@ def classify0(inX, dataSet, labels, k):
                               reverse=True)
     return sortedClassCount[0][0]
 
-# transfer data from file to matrix
+# text record to numpy parsing code
 def file2matrix(filename):
     fr = open(filename)
     arrayOLines = fr.readlines()
@@ -60,4 +60,14 @@ def file2matrix(filename):
         index += 1
     return returnMat, classLabelVector
 
-
+# data-normalizing code
+def autoNorm(dataSet):
+    minVals = dataSet.min(0)
+    maxVals = dataSet.max(0)
+    ranges = maxVals - minVals
+    normDataSet = zeros(shape(dataSet))
+    m = dataSet.shape[0]
+    normDataSet = dataSet - tile(minVals, (m, 1))
+    # Element-wise division
+    normDataSet = normDataSet/tile(ranges, (m, 1))
+    return normDataSet, ranges, minVals
