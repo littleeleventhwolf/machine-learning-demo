@@ -27,4 +27,22 @@ def createDataSet():
     labels = ['no surfacing', 'flippers']
     return dataSet, labels
 
+# dataset splitting on a given feature
+def splitDataSet(dataSet, axis, value):
+    """
+    params:
+        dataSet: the dataset we will split
+        axis: the feature we will split on
+        value: the value of the feature to return
+    """
+    # create separate list
+    retDataSet = []
+    # cut out the feature split on
+    for featVec in dataSet:
+        if featVec[axis] == value:
+            reducedFeatVec = featVec[:axis]
+            reducedFeatVec.extend(featVec[axis+1:])
+            retDataSet.append(reducedFeatVec)
+    return retDataSet
+
 
