@@ -1,4 +1,5 @@
 from math import log
+import operator
 
 # function to calculate the Shannon entropy of dataset
 def calcShannonEnt(dataSet):
@@ -70,4 +71,18 @@ def chooseBestFeatureToSplit(dataSet):
             bestInfoGain = infoGain
             bestFeature = i
     return bestFeature
+
+def majorityCnt(classList):
+    """
+    If our dataset has run out of attributes but the class labels
+    are not all the same, we must decide what to call that leaf node.
+    In this situation, we will take a majority vote.
+    """
+    classCount = {}
+    for vote in classList:
+        if vote not in classCount.keys(): classCount[vote] = 0
+        classCount[vote] += 1
+    sortedClassCount = sorted(classCount.iteritems(),
+                              key=operator.itemgetter(1), reverse=True)
+    return sortedClassCount[0][0]
 
