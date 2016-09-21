@@ -19,3 +19,40 @@ def createPlot():
 	plotNode('a decision node', (0.5, 0.1), (0.1, 0.5), decisionNode)
 	plotNode('a leaf node', (0.8, 0.1), (0.3, 0.8), leafNode)
 	plt.show()
+
+# idetifying the number of leaves in a tree and the depth
+def getNumLeafs(myTree):
+	numLeafs = 0
+	firstStr = myTree.keys()[0]
+	secondDict = myTree[firstStr]
+	for key in secondDict.keys():
+		# test if node is dictionary
+		if type(secondDict[key]).__name__ == 'dict':
+			numLeafs += getNumLeafs(secondDict[key])
+		else:
+			numLeafs += 1
+	return numLeafs
+
+def getTreeDepth(myTree):
+	maxDepth = 0
+	firstStr = myTree.keys()[0]
+	secondDict = myTree[firstStr]
+	for key in secondDict.keys():
+		if type(secondDict[key]).__name__ == 'dict':
+			thisDepth = 1 + getTreeDepth(secondDict[key])
+		else:
+			thisDepth = 1
+		if thisDepth > maxDepth:
+			maxDepth = thisDepth
+	return maxDepth
+
+# this will save you the trouble of
+# making a tree from data every time during testing
+def retrieveTree(i):
+	listOfTrees = [{'no surfacing' : {0: 'no', 1: {'flippers': \
+	                {0: 'no', 1: 'yes'}}}},
+	               {'no surfacing' : {0: 'no', 1: {'flippers': \
+	                {0: {'head' : {0: 'no', 1: 'yes'}}, 1: 'no'}}}}
+	              ]
+	return listOfTrees[i]
+
