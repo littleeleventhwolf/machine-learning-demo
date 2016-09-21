@@ -86,3 +86,32 @@ def majorityCnt(classList):
                               key=operator.itemgetter(1), reverse=True)
     return sortedClassCount[0][0]
 
+# tree building code
+def createTree(dataSet, labels):
+    """
+    params:
+        dataSet: the dataSet we will use to create decision-tree
+        labels: the list of labels contains a label for each of
+                the features in the dataset
+    """
+    classList = [example[-1] for example in dataSet]
+    # stop when all classes are equal
+    if classList.count(classList[0]) == len(classList):
+        return classList[0]
+    # when no more features, return majority
+    if len(dataSet[0]) == 1:
+        return majorityCnt(classList)
+    bestFeat = chooseBestFeatureToSplit(dataSet)
+    bestFeatLabel = labels[bestFeat]
+    myTree = {bestFeatLabel:{}}
+    # get list of unique values
+    del(labels[bestFeat])
+    featValues = [example[bestFeat] for example in dataSet]
+    uniqueVals = set(featValues)
+    for value in uniqueVals:
+        subLabels = labels[:]
+        myTree[bestFeatLabel][value] = createTree( \
+                        splitDataSet(dataSet, bestFeat, \
+                                value), subLabels)
+    return myTree
+
