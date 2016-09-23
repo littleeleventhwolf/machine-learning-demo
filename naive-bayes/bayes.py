@@ -201,9 +201,9 @@ def getTopWords(ny, sf):
 	topNY = []
 	topSF = []
 	for i in range(len(p0V)):
-		if p0V[i] > -6.0:
+		if p0V[i] > -5.0:
 			topSF.append((vocabList[i], p0V[i]))
-		if p1V[i] > -6.0:
+		if p1V[i] > -5.0:
 			topNY.append((vocabList[i], p1V[i]))
 	sortedSF = sorted(topSF, key=lambda pair: pair[1], reverse=True)
 	print "SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**"
