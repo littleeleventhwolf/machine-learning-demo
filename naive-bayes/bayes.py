@@ -112,10 +112,12 @@ def spamTest():
 		fullText.extend(wordList)
 		classList.append(0)
 	vocabList = createVocabList(docList)
-	tainingSet = range(50)
+	trainingSet = range(50)
 	testSet = []
 	# randomly create the training set
 	for i in range(10):
+		# this randomly selecting a portion of our data for the training set
+		# and a portion for the test set is called "hold-out cross validation"
 		randIndex = int(random.uniform(0, len(trainingSet)))
 		testSet.append(trainingSet[randIndex])
 		del(trainingSet[randIndex])
