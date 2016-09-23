@@ -36,10 +36,10 @@ def trainNBO(trainMatrix, trainCategory):
 	numWords = len(trainMatrix[0])
 	# initialize probability
 	pAbusive = sum(trainCategory)/float(numTrainDocs)
-	p0Num = zeros(numWords)
-	p1Num = zeros(numWords)
-	p0Denom = 0.0
-	p1Denom = 0.0
+	p0Num = ones(numWords)
+	p1Num = ones(numWords)
+	p0Denom = 2.0
+	p1Denom = 2.0
 
 	for i in range(numTrainDocs):
 		if trainCategory[i] == 1:
@@ -51,7 +51,29 @@ def trainNBO(trainMatrix, trainCategory):
 			p0Denom += sum(trainMatrix[i])
 			
 	# element-wise division
-	p1Vect = p1Num / p1Denom # change to log()
-	p0Vect = p0Num / p0Denom # change to log()
+	p1Vect = log(p1Num / p1Denom) # change to log()
+	p0Vect = log(p0Num / p0Denom) # change to log()
 	return p0Vect, p1Vect, pAbusive
 
+# define bayes classify function
+def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
+	p1 = sum(vec2Classify * p1Vec) + log(pClass1) # element-wise multiplication
+	p0 = sum(vec2Classify * p0Vec) + log(1.0 - pClass1)
+	if p1 > p0:
+		return 1
+	else:
+		return 0
+
+def testingNB():
+	listOPosts, listClasses = loadDataSet()
+	myVocabList = createVocabList(listOPosts)
+	trainMat = []
+	for postinDoc in listOPosts:
+		trainMat.append(setOfWords2Vec(myVocabList, postinDoc))
+	p0V, p1V, pAb = trainNBO(array(trainMat), array(listClasses))
+	testEntry = ['love', 'my', 'dalmatian']
+	thisDoc = array(setOfWords2Vec(myVocabList, testEntry))
+	print testEntry, 'classified as: ', classifyNB(thisDoc, p0V, p1V, pAb)
+	testEntry = ['stupid', 'garbage']
+	thisDoc = array(setOfWords2Vec(myVocabList, testEntry))
+	print testEntry, 'classified as: ', classifyNB(thisDoc, p0V, p1V, pAb)
