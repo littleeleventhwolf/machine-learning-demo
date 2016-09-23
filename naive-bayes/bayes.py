@@ -21,6 +21,7 @@ def createVocabList(dataSet):
 		vocabSet = vocabSet | set(document) # create the union of two sets
 	return list(vocabSet)
 
+# naive bayes set-of-words model
 def setOfWords2Vec(vocabList, inputSet):
 	returnVec = [0] * len(vocabList) # create a vector of all 0s
 	for word in inputSet:
@@ -28,6 +29,16 @@ def setOfWords2Vec(vocabList, inputSet):
 			returnVec[vocabList.index(word)] = 1
 		else:
 			print "the word: %s is not in my Vocabulary!" % word
+	return returnVec
+
+# naive bayes bag-of-words model
+def bagOfWords2VecMN(vocabList, inputSet):
+	returnVec = [0] * len(vocabList) # create a vector of all 0s
+	for word in inputSet:
+		if word in vocabList:
+			returnVec[vocabList.index(word)] += 1
+		#else:
+		#	print "the word: %s is not in my Vocabulary!" % word
 	return returnVec
 
 # naive bayes classifier training function
