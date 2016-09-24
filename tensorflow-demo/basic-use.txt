@@ -1,0 +1,54 @@
+构建图
+构建图的第一步，是创建源op(source op)。源op不需要任何输入，例如常量(Constant)。源op的输出被传递给其它op做运算。
+Python库中，op构造器的返回值代表被构造出的op的输出，这些返回值可以传递给其它op构造器作为输入。
+TensorFlow Python库有一个默认图(default graph)，op构造器可以为其增加节点。这个默认图对许多程序来说已经足够用了。
+
+	# -*- encoding: utf8 -*-
+	import tensorflow as tf
+	
+	# 创建一个常量op,产生一个1X2矩阵，这个op被作为一个节点加到默认图中。
+	# 构造器的返回值代表该常量op的返回值。
+	matrix1 = tf.constant([[3., 3.]])
+	
+	# 创建另一个常量op,产生一个2X1的矩阵。
+	matrix2 = tf.constant([[2.], [2.]])
+	
+	# 创建一个矩阵乘法matmul op,把'matrix1'和'matrix2'作为输入。
+	# 返回值'product'代表矩阵乘法的结果。
+	product = tf.matmul(matrix1, matrix2)
+
+默认图中现在有三个节点，两个constant() op，和一个matmul() op。为了真正进行矩阵相乘运算，并得到矩阵乘法的结果，你必须在会话里启动这个图。
+
+在一个会话中启动图
+构造阶段完成后，才能启动图。启动图的第一步是创建一个Session对象，如果无任何创建参数，会话构造器将启动默认图。
+	# 启动默认图
+	sess = tf.Session()
+	
+	# 调用sess的'run()'方法来执行矩阵相乘op，传入'product'作为该方法的参数。
+	# 上面提到，'product'代表了矩阵乘法op的输出，传入它是向方法表明，我们希望取回矩阵乘法op的输出。
+	# 整个执行过程是自动化的，会话负责传递op所需的全部输入，op通常是并发执行的。
+	# 函数调用'run(product)'出发了图中三个op(两个常量op和一个矩阵乘法op)的执行。
+	# 返回值'result'是一个numpy.ndarray对象。
+	result = sess.run(product)
+	print result
+	# ==> [[12.]]
+	
+	# 任务完成，关闭会话
+	sess.close()
+Session对象在使用完后需要关闭以释放资源。除了显式调用close外，也可以使用"with"代码块来自动完成关闭动作。
+	with tf.Session() as sess:
+		result = sess.run(product)
+		print result
+在实现上，TensorFlow将图形定义转换成分布式执行的操作，以充分利用可用的计算资源(如CPU或GPU)。一般不需要显式指定使用CPU还是GPU，TensorFlow能自动检测。如果检测到GPU，TensorFlow会尽可能地利用找到的第一个GPU来执行操作。
+如果机器上有超过一个可用的GPU，除第一个外的其他GPU默认是不参与计算的。为了让TensorFlow使用这些GPU，你必须将op明确指派给它们执行。with...Device语句用来指派特定的CPU或GPU执行操作：
+	with tf.Session() as sess:
+		with tf.device("/gpu:1"):
+			matrix1 = tf.constant([[3., 3.]])
+			matrix2 = tf.constant([[2.], [2.]])
+			product = tf.matmul(matrix1, matrix2)
+			... ...
+设备用字符串进行标识。目前支持的设备包括：
+"/cpu:0"：机器的CPU。
+"/gpu:0"：机器的第一个GPU，如果有的话。
+"/gpu:1"：机器的第二个GPU，以此类推。
+
