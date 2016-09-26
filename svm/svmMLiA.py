@@ -202,4 +202,13 @@ def smoP(dataMatIn, classLabels, C, toler, maxIter,kTup=('lin', 0)):    #full Pl
         print "iteration number: %d" % iter
     return oS.b, oS.alphas
 
+# small function, use this to classify things
+def calcWs(alphas, dataArr, classLabels):
+	X = mat(dataArr)
+	labelMat = mat(classLabels).transpose()
+	m, n = shape(X)
+	w = zeros((n, 1))
+	for i in range(m):
+		w += multiply(alphas[i]*labelMat[i], X[i,:].T)
+	return w
 
