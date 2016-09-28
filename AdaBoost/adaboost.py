@@ -9,3 +9,14 @@ def loadSimpData():
 	classLabels = [1.0, 1.0, -1.0, -1.0, 1.0]
 	return dataMat, classLabels
 
+# decision stump-generating functions
+def stumpClassify(dataMatrix, dimen, threshVal, threshIneq):
+	"""
+	classify the data
+	"""
+	retArray = ones((shape(dataMatrix)[0], 1))
+	if threshIneq == 'lt':
+		retArray[dataMatrix[:, dimen] <= threshVal] = -1.0
+	else:
+		retArray[dataMatrix[:, dimen] > threshVal] = -1.0
+	return retArray
