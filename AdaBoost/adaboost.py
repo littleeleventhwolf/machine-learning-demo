@@ -1,3 +1,5 @@
+from numpy import *
+
 def loadSimpData():
 	dataMat = matrix([[1., 2.1],
 		[2., 1.1],
