@@ -33,7 +33,7 @@ with tf.Session() as sess:
 	sess.run(init)
 	# then train
 	for i in range(1000):
-		batch_trX, batch_trY = mnist.train.next_batch(100)
+		batch_trX, batch_trY = mnist.train.next_batch(128)
 		sess.run(train_step, feed_dict={X: batch_trX, Y: batch_trY})
 
 	# test and evaluate our model
