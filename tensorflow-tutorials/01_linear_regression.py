@@ -6,16 +6,23 @@ import tensorflow as tf
 import numpy as np
 
 trX = np.linspace(-1, 1, 101)
-trY = 2 * trX + np.random.randn(*trX.shape) * 0.33 # create a y value which is approximately linear but with some random noise
+# create a y value which is approximately linear but with some random noise
+trY = 2 * trX + \
+	np.ones(*trX.shape) * 4 + \
+	np.random.randn(*trX.shape) * 0.03
 
 X = tf.placeholder(tf.float32) # create symbolic variables
 Y = tf.placeholder(tf.float32)
 
-def model(X, w):
-	return tf.mul(X, w) # linear regression is just X*w, so this model line is pretty simple
+def model(X, w, b):
+	# linear regression is just X*w + b, so this model line is pretty simple
+	return tf.mul(X, w) + b 
 
-w = tf.Variable(0.0, name="weights") # create a shared variable for the weight matrix
-y_model = model(X, w)
+# create a shared for weight s
+w = tf.Variable(0.0, name="weights")
+# create a variable for biases
+b = tf.Variable(0.0, name="biases")
+y_model = model(X, w, b)
 
 cost = tf.square(Y - y_model) # use square error for cost function
 
@@ -35,3 +42,5 @@ with tf.Session() as sess:
 
 	# print weight
 	print(sess.run(w)) # it should be something around 2
+	# print bias
+	print(sess.run(b)) # it should be something atound 4
