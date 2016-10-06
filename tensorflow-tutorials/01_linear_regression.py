@@ -18,7 +18,7 @@ def model(X, w, b):
 	# linear regression is just X*w + b, so this model line is pretty simple
 	return tf.mul(X, w) + b 
 
-# create a shared for weight s
+# create a variable for weights
 w = tf.Variable(0.0, name="weights")
 # create a variable for biases
 b = tf.Variable(0.0, name="biases")
