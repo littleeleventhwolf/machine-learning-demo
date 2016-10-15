@@ -14,6 +14,10 @@ def basic_operation():
 	print(type(addv))
 	print(type(v1))
 
+	c1 = tf.constant(10)
+	c2 = tf.constant(12)
+	addc = c1 + c2
+
 	# session is a runtime
 	sess = tf.Session()
 
@@ -21,7 +25,8 @@ def basic_operation():
 	tf.initialize_all_variables().run(session=sess)
 
 	print("Variable need to be initialized")
-	print('add operation: (v1 + v1) = ', addv.eval(session=sess))
+	print('variable add operation: (v1 + v2) = ', addv.eval(session=sess))
+	print('constant add operation: (v1 + v2) = ', addc.eval(session=sess))
 
 
 if __name__ == '__main__':
