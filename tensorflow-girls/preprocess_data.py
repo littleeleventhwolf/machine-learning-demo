@@ -89,15 +89,20 @@ train_labels = traindata['y']
 test_samples = testdata['X']
 test_labels = testdata['y']
 
-_train_samples, _train_labels = reformat(train_samples, train_labels)
-_test_samples, _test_labels = reformat(test_samples, test_labels)
+n_train_samples, _train_labels = reformat(train_samples, train_labels)
+n_test_samples, _test_labels = reformat(test_samples, test_labels)
+
+_train_samples = normalize(n_train_samples)
+_test_samples = normalize(n_test_samples)
 
 num_labels = 10
 image_size = 32
+num_channels = 1
 
 if __name__ == "__main__":
+	pass
 	# inspect(_train_samples, _train_labels, 1000)
 	# normalize(_train_samples)
 	# inspect(_train_samples, _train_labels, 1000)
-	distribution(train_labels, 'Train Labels')
-	distribution(test_labels, 'Test Labels')
+	# distribution(train_labels, 'Train Labels')
+	# distribution(test_labels, 'Test Labels')
