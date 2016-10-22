@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import numpy as np
 from sklearn.feature_extraction import DictVectorizer
 import csv
 from sklearn import preprocessing
@@ -57,5 +58,15 @@ newRowX[0] = 1
 newRowX[2] = 0
 print('newRowX: ' + str(newRowX))
 
+# To solve the DeprecationWarning : method 1
+# newRowX = np.array(newRowX)
+# print('newRowX: ' + str(newRowX))
+# newRowX = newRowX.reshape((1, -1))
+# print('newRowX: ' + str(newRowX))
+# predictedY = clf.predict(newRowX)
+
+# method 2
 predictedY = clf.predict([newRowX])
+
+
 print("predictedY: " + str(predictedY))
