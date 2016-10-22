@@ -21,8 +21,14 @@ yy = a * xx - (clf.intercept_[0]) / w[1]
 
 # plot the parallels to the separating hyperplane that pass through the support vectors
 b = clf.support_vectors_[0]
+print("====================")
+print(b)
+print("====================")
 yy_down = a * xx + (b[1] - a * b[0])
 b = clf.support_vectors_[-1]
+print("====================")
+print(b)
+print("====================")
 yy_up = a * xx + (b[1] - a * b[0])
 
 print("w:", w)
