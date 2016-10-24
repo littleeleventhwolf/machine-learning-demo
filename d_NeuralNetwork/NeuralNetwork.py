@@ -48,7 +48,7 @@ class NeuralNetwork:
 
 		for k in range(epochs):
 			i = np.random.randint(X.shape[0])
-			a = X[i]
+			a = [X[i]]
 
 			for l in range(len(self.weights)): # Going forward network, for each layer
 				a.append(self.activation(np.dot(a[l], self.weights[l]))) # Compute the node value
