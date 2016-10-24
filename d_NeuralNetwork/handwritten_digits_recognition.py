@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import numpy as np
 from sklearn.datasets import load_digits
 from sklearn.metrics import confusion_matrix, classification_report
@@ -16,7 +18,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y)
 labels_train = LabelBinarizer().fit_transform(y_train)
 labels_test = LabelBinarizer().fit_transform(y_test)
 print("start fitting")
-nn.fit(X_train, labels_train, epochs=3000)
+nn.fit(X_train, labels_train, epochs=30000)
 predictions = []
 for i in range(X_test.shape[0]):
 	o = nn.predict(X_test[i])
