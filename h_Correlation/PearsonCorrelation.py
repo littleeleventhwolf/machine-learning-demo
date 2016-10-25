@@ -31,11 +31,13 @@ def polyfit(x, y, degree):
 
 	# r-squared
 	p = np.poly1d(coeffs)
+	print("p: ", p)
 	# fit values, and mean
-	yhat = p(x)
-	ybar = np.sum(y) / len(y)
-	ssreg = np.sum((yhat - ybar) ** 2)
-	sstot = np.sum((y - ybar) ** 2)
+	yhat = p(x) # or [p[z] for z in x]
+	print("y_hat: ", yhat)
+	ybar = np.sum(y) / len(y) # or sum(y) / len(y)
+	ssreg = np.sum((yhat - ybar) ** 2) # or sum([ (yihat - ybar) ** 2 for yihat in yhat])
+	sstot = np.sum((y - ybar) ** 2) # or sum([(yi - ybar) ** 2 for yi in y])
 	results['determination'] = ssreg / sstot
 
 	return results
