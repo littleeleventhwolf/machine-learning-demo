@@ -10,8 +10,9 @@ y = tf.matmul(a, w2)
 
 sess = tf.Session()
 
-sess.run(w1.initializer)
-sess.run(w2.initializer)
+#sess.run(w1.initializer)
+#sess.run(w2.initializer)
+sess.run(tf.global_variables_initializer())
 
 print(sess.run(y))
 sess.close()
