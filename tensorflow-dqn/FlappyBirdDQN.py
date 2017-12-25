@@ -17,7 +17,8 @@ def preprocess(observation):
 
 def playFlappyBird():
 	# Step 1: init BrainDQN
-	brain = BrainDQN()
+	actions = 2
+	brain = BrainDQN(actions)
 	# Step 2: init Flappy Bird Game
 	flappyBird = game.GameState()
 	# Step 3: play game
