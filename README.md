@@ -1,2 +1,2 @@
 # machine-learning-demo
-Machine Learning algorithm practice.
+Machine Learning and Deep Learning algorithm practice.
