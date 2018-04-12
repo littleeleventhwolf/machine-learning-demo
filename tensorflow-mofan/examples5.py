@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import matplotlib.pyplot as plt
 
 def add_layer(inputs, in_size, out_size, activation_function=None):
 	Weights   = tf.Variable(tf.random_normal([in_size, out_size]))
@@ -11,10 +12,12 @@ def add_layer(inputs, in_size, out_size, activation_function=None):
 		outputs = activation_function(Wx_plus_b)
 	return outputs
 
+# Make up some dummy data
 X_data = np.linspace(-1, 1, 300)[:, np.newaxis]
 noise  = np.random.normal(0, 0.05, X_data.shape)
 y_data = np.square(X_data) - 0.5 + noise
 
+# define placeholder for inputs to network
 xs = tf.placeholder(tf.float32, [None, 1])
 ys = tf.placeholder(tf.float32, [None, 1])
 
@@ -32,7 +35,22 @@ sess = tf.Session()
 
 sess.run(init)
 
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+ax.scatter(X_data, y_data)
+plt.ion()
+plt.show()
+
 for i in range(1000):
+	# training
 	sess.run(train_step, feed_dict={xs: X_data, ys: y_data})
 	if i % 50 == 0:
-		print(sess.run(loss, feed_dict={xs: X_data, ys: y_data}))
+		# to see the step improvement
+		# print(sess.run(loss, feed_dict={xs: X_data, ys: y_data}))
+		try:
+			ax.lines.remove(lines[0])
+		except Exception:
+			pass
+		prediction_value = sess.run(prediction, feed_dict={xs: X_data})
+		lines = ax.plot(X_data, prediction_value, 'r-', lw=5)
+		plt.pause(0.5)
